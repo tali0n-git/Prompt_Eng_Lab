@@ -6,7 +6,7 @@ def make_plot(sentiments: list, index: int) -> list:        # Shouldn't the retu
     Input:
         sentiments: A list of strings, each representing a sentiment category.
     Output:
-        None, but saves a plot of the sebsentiment categories to a file in the form of a pie chart.
+        None, but saves a plot of the sentiment categories to a file in the form of a pie chart.
     """
     # Set up early return for empty input
     if sentiments == [] or sentiments == None:

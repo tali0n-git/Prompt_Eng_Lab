@@ -25,6 +25,8 @@ def get_sentiment(text: list, index = 0) -> list:
 
     client = OpenAI()
 
+    ### Give an example of the task to the model
+
     system_prompt = """
     You are a helpful assistant that categorizes text into sentiment categories.
     The categories are positive, neutral, negative, or irrelevant.
