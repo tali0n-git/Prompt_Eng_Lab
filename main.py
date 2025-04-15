@@ -15,6 +15,7 @@ def run(filepath: str)-> list:
     with open(filepath, 'r') as file:
         data = json.load(file)["results"]
 
+
     # extract the reviews from the json file
     # and remove any empty lines or irrelevant text
     reviews = []
@@ -22,27 +23,35 @@ def run(filepath: str)-> list:
         if review not in ["", None, " ", "\n"]:
             reviews.append(review)
 
-    print("Length of reviews:", len(reviews))
 
     # get a list of sentiments for each line using get_sentiment
-    sentiments_text_0 = get_sentiment(reviews, 0)
-    #sentiments_text_1 = get_sentiment(reviews, 1)
-    #sentiments_text_2 = get_sentiment(reviews, 2)
+    sentiments_text = get_sentiment(reviews)
+    if sentiments_text == None:
+        print("Error: get_sentiment returned None.")
+        return None
+    sentiments_list = []
+    for line in sentiments_text:
+        sentiments_list.append(str(line.strip()))
 
-    #print(sentiments_text_0)
+
+    print("Length of sentiments_list: *", len(sentiments_list), "*")
+
 
     # plot a visualization expressing sentiment ratio
-    #make_plot(sentiments_text_0, 0)
-    make_plot(sentiments_text_0, 1)   #checking if the plot is consistent; RESULT: It did NOT do the thing, made a graph closer to one of the first generated results...
-    #make_plot(sentiments_text_1, 1)
-    #make_plot(sentiments_text_2, 2)
-    print("I DID THE THING!")
+    make_plot(sentiments_list)
 
-    # return sentiments
-    return(sentiments_text_0)
+    return sentiments_list
 
 
 
 if __name__ == "__main__":
-    #print(run("data/raw/reviews.json"))
-    run("data/raw/reviews.json")
+    sentiments = run("data/raw/reviews.json")
+    print(sentiments)
+'''
+    # To check the first 7 lines of the sentiment list:
+    # 11th line should be POSITIVE!
+    i = 7
+    for sentiment in sentiments[:7]:
+        print(f"For line {i}: ", sentiment)
+        i += 1
+'''

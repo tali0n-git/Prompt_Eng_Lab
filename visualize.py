@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def make_plot(sentiments: list, index: int) -> list:        # Shouldn't the return type be None?
+def make_plot(sentiments: list, index = "") -> None:
     """
     Input:
         sentiments: A list of strings, each representing a sentiment category.
@@ -9,7 +9,7 @@ def make_plot(sentiments: list, index: int) -> list:        # Shouldn't the retu
         None, but saves a plot of the sentiment categories to a file in the form of a pie chart.
     """
     # Set up early return for empty input
-    if sentiments == [] or sentiments == None:
+    if sentiments in [[], [""], None]:
         print("Wrong input. sentiments must be an array of strings.")
         return sentiment
 
@@ -27,8 +27,7 @@ def make_plot(sentiments: list, index: int) -> list:        # Shouldn't the retu
     colors = ['gold', 'lightcoral', 'lightskyblue', 'lightgreen']
 
     plt.figure(figsize=(8, 8))
-    plt.pie(sizes, labels=labels, colors=colors,
-            autopct='%1.1f%%', shadow=True, startangle=140)
+    plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
     plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
     # Save the plot to a file

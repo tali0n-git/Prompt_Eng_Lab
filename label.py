@@ -1,7 +1,7 @@
 from openai import OpenAI
 
 
-def get_sentiment(text: list, index = 0) -> list:
+def get_sentiment(text: list) -> list:
     """
     Input:
         text: A list of strings, each representing a line of text to be categorized.
@@ -18,33 +18,37 @@ def get_sentiment(text: list, index = 0) -> list:
     
     # Check if the input is a list of strings
     for t in text:
-        if type(t) != str:
+        if str(t).isnumeric() == True or t == None:
             print(error)
             return(error)
             
 
     client = OpenAI()
 
-    ### Give an example of the task to the model
-
     system_prompt = """
-    You are a helpful assistant that categorizes text into sentiment categories.
-    The categories are positive, neutral, negative, or irrelevant.
-    Be careful when trying to identify irrelevant text, as it may be difficult to identify.
-    You should use Regex to identify the sentiment of each line of text.
-    Ignore html tags, links, and any other non-textual elements.
-    Use "irrelevant" for any text that does not fit into the other categories.
-    Be consistent with your categorization, do not change your mind when categorizing the same text again.
+    You are a very clever AI model that categorizes lists of reviews into the following sentiment categories: positive, neutral, negative, or irrelevant.
+    Do not include any numbers, punctuation, or special characters in your response.
+
+    As an example, if your input contains the following list of six reviews:
+    ["this coconut water smells weird, don't recomend", "I love this water, I drink it all the time when working out.", "I will never buy another brand again, I love this coconut water", "It's an ok product. The taste could be better but for the price its fine.", "its a water", "Bought this coconut water and the bottle came broken. rip-off."]
+    Your response would be the following six labels:
+    negative
+    positive
+    positive
+    neutral
+    irrelevant
+    negative
+
+    You are a very clever AI model, so I know you can do this. Keep trying!
     """
 
     prompt = f"""
-    For each line of text in the string below, please categorize the review
-    as either positive, neutral, negative, or irrelevant.
-
-    Use only a one-word response per line. Do not include any numbers.
+    The fifty items in the list provided are reviews of one product: a 33.8 ounce coconut water drink called ZICO. It is sold individually or in a pack.
+    Please be careful in your analysis, there may be comparisons to other coconut water brands or products. Long reviews may contain multiple sentiments.
+    Categorize each item in the list below:
     {text}
     """
-    soln_list = []
+
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
@@ -52,10 +56,28 @@ def get_sentiment(text: list, index = 0) -> list:
             {"role": "user", "content": prompt}
         ]
     )
-    soln = response.choices[index].message.content.strip()
+    soln = response.choices[0].message.content.split("\n")
 
-    for s in soln.split("\n"):
-        if s.strip() != "" and s.strip() != None:
-            soln_list.append(str(s.strip()))
+    # Check if the length of the response matches the length of the input text
+    while len(soln) != len(text):
+        print("Trying again...")
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "developer", "content": system_prompt},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        soln = response.choices[0].message.content.split("\n")
+        print("Length of soln: ", len(soln))
+        print("Length of text: ", len(text))
+        if len(soln) == len(text):
+            break
+        
+    # We must manually strip the response of spaces, because the API does not do this for us sometimes.
+    i = 0
+    for text in soln:
+        soln[i] = text.strip()
+        i += 1
 
-    return(soln_list)
+    return soln
