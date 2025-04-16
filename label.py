@@ -28,6 +28,7 @@ def get_sentiment(text: list) -> list:
     system_prompt = """
     You are a very clever AI model that categorizes lists of reviews into the following sentiment categories: positive, neutral, negative, or irrelevant.
     Do not include any numbers, punctuation, or special characters in your response.
+    Analyze the entire response and categorize it as a whole. Do not categorize each sentence separately.
 
     As an example, if your input contains the following list of six reviews:
     ["this coconut water smells weird, don't recomend", "I love this water, I drink it all the time when working out.", "I will never buy another brand again, I love this coconut water", "It's an ok product. The taste could be better but for the price its fine.", "its a water", "Bought this coconut water and the bottle came broken. rip-off."]
@@ -43,8 +44,9 @@ def get_sentiment(text: list) -> list:
     """
 
     prompt = f"""
-    The fifty items in the list provided are reviews of one product: a 33.8 ounce coconut water drink called ZICO. It is sold individually or in a pack.
-    Please be careful in your analysis, there may be comparisons to other coconut water brands or products. Long reviews may contain multiple sentiments.
+    The fifty items in the list provided are reviews of one product: 33.8 ounce coconut water drink called ZICO. It is sold individually or in a pack.
+    Please be careful in your analysis, there may be comparisons to other coconut water brands or products. Long reviews may contain multiple sentiments, so narrow it down to the most relevant sentiment.
+    Please limit your response to fifty items, one for each review.
     Categorize each item in the list below:
     {text}
     """

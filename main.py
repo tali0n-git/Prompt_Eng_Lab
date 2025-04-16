@@ -25,16 +25,10 @@ def run(filepath: str)-> list:
 
 
     # get a list of sentiments for each line using get_sentiment
-    sentiments_text = get_sentiment(reviews)
-    if sentiments_text == None:
+    sentiments_list = get_sentiment(reviews)
+    if sentiments_list == None:
         print("Error: get_sentiment returned None.")
         return None
-    sentiments_list = []
-    for line in sentiments_text:
-        sentiments_list.append(str(line.strip()))
-
-
-    print("Length of sentiments_list: *", len(sentiments_list), "*")
 
 
     # plot a visualization expressing sentiment ratio
@@ -47,11 +41,3 @@ def run(filepath: str)-> list:
 if __name__ == "__main__":
     sentiments = run("data/raw/reviews.json")
     print(sentiments)
-'''
-    # To check the first 7 lines of the sentiment list:
-    # 11th line should be POSITIVE!
-    i = 7
-    for sentiment in sentiments[:7]:
-        print(f"For line {i}: ", sentiment)
-        i += 1
-'''
