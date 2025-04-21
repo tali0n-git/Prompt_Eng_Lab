@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 
 def make_plot(sentiments: list, index = "") -> None:
     """
+    Description:
+        This function takes a list of sentiment categories 
+        and creates a pie chart to visualize the distribution of these categories.
+        The pie chart is saved to a file in the form of a PNG image.
+        The function also includes an early return for empty or invalid input.
     Input:
         sentiments: A list of strings, each representing a sentiment category.
     Output:
@@ -28,7 +33,7 @@ def make_plot(sentiments: list, index = "") -> None:
 
     plt.figure(figsize=(8, 8))
     plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
-    plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
 
     # Save the plot to a file
     plt.savefig(f"images/sentiments{index}.png")

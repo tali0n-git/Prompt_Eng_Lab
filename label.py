@@ -3,6 +3,11 @@ from openai import OpenAI
 
 def get_sentiment(text: list) -> list:
     """
+    Description:
+        This function takes a list of strings and categorizes each string into one of the following sentiment categories: 
+        positive, neutral, negative, or irrelevant.
+        The OpenAI API is used to perform the categorization.
+        A method to output the correct length of the response is included, as the API does not always return the correct length.
     Input:
         text: A list of strings, each representing a line of text to be categorized.
     Output:

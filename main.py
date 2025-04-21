@@ -6,6 +6,10 @@ import json
 
 def run(filepath: str)-> list:
     """
+    Description:
+        This function takes a file path to a json file containing reviews,
+        extracts the reviews, and categorizes each review into one of the following sentiment categories: 
+        positive, neutral, negative, or irrelevant.
     Input:
         filepath: The path to the json file containing reviews.
     Output:
